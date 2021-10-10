@@ -1,0 +1,140 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://UI/HUD.gd" type="Script" id=1]
+[ext_resource path="res://UI/Instructions.gd" type="Script" id=2]
+[ext_resource path="res://UI/Camera.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Never Surrender.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Pieces/Piece Background.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/cave.png" type="Texture" id=6]
+[ext_resource path="res://Grid/grid.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Victorius.otf" type="DynamicFontData" id=8]
+
+[sub_resource type="GradientTexture" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 36
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 24
+font_data = ExtResource( 8 )
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 286.869, 508.434 )
+scale = Vector2( 0.15, 0.26 )
+texture = ExtResource( 6 )
+
+[node name="grid" type="Node2D" parent="."]
+script = ExtResource( 7 )
+width = 7
+height = 10
+xStart = 82
+yStart = 832
+offset = 69
+background = ExtResource( 5 )
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 3 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -25.0
+autoplay = true
+
+[node name="HUD" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="HUD"]
+position = Vector2( 288.326, 19.3552 )
+scale = Vector2( 0.281742, 39.7104 )
+texture = SubResource( 2 )
+
+[node name="Score" type="Label" parent="HUD"]
+margin_left = 1.33484
+margin_top = 5.33936
+margin_right = 577.335
+margin_bottom = 42.3394
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Score"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="HUD"]
+margin_top = 5.33936
+margin_right = 565.0
+margin_bottom = 42.3394
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Time"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD"]
+autostart = true
+
+[node name="Instructions" type="Control" parent="HUD"]
+pause_mode = 2
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="HUD/Instructions"]
+margin_right = 576.0
+margin_bottom = 1024.0
+color = Color( 0, 0, 0, 0.752941 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Instructions"]
+margin_right = 576.0
+margin_bottom = 791.0
+custom_fonts/font = SubResource( 3 )
+text = "Level 2
+
+How long will it take you to score 5000 points?"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Countdown_label" type="Label" parent="HUD/Instructions"]
+margin_top = 4.0
+margin_right = 576.0
+margin_bottom = 1028.0
+custom_fonts/font = SubResource( 4 )
+text = "Starting in: "
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Countdown" type="Timer" parent="HUD/Instructions"]
+autostart = true
+
+[connection signal="timeout" from="HUD/Timer" to="HUD" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/Instructions/Countdown" to="HUD/Instructions" method="_on_Countdown_timeout"]
